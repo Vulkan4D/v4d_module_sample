@@ -1,5 +1,3 @@
-#include <v4d.h>
-
 namespace v4d::tests {
 	int SYSTEMS_SAMPLE_1() {
 

@@ -36,7 +36,6 @@
  */
 
 // Metadata
-#define _V4D_SYSTEM
 #define THIS_SYSTEM_NAME "Sample"
 #define THIS_SYSTEM_REVISION 1
 #define THIS_SYSTEM_DESCRIPTION "Sample V4D System"

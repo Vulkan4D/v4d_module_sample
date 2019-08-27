@@ -21,7 +21,7 @@
  * Systems can include predefined optional functions and custom functions
  * 
  * To call a predefined function, simply call it using the instance pointer : 
- * 		sampleSystem->OnSystemLoad();
+ * 		sampleSystem->OnLoad();
  * 
  * To call a custom function from a system, first get the function pointer using the Macro and check if it is valid : 
 		LOAD_DLL_FUNC(sampleSystem, int, test1, int)
@@ -36,7 +36,8 @@
  */
 
 // Metadata
-#define THIS_SYSTEM_NAME "Sample System"
+#define _V4D_SYSTEM
+#define THIS_SYSTEM_NAME "Sample"
 #define THIS_SYSTEM_REVISION 1
 #define THIS_SYSTEM_DESCRIPTION "Sample V4D System"
 
@@ -45,11 +46,11 @@
 ////////////////////////////////////////////////////////////////////
 // Predefined optional functions
 
-V4DSYSTEM void OnSystemLoad() {
+V4DSYSTEM void OnLoad() {
 	// LOG("Sample system Loaded")
 }
 
-V4DSYSTEM void OnSystemDestroy() {
+V4DSYSTEM void OnDestroy() {
 	// LOG("Sample system Destroyed")
 }
 

@@ -1,9 +1,11 @@
 #include <v4d.h>
 
 namespace v4d::tests {
-	int SYSTEMS_SAMPLE_1() {
+	int SYSTEMS_SAMPLE_1(v4d::CoreInstance* v4dCore) {
 
-		v4d::SystemsLoader systemsLoader;
+		v4dCore->SetProjectName("Test Project");
+
+		v4d::SystemsLoader systemsLoader(v4dCore);
 
 		auto sampleSystem = systemsLoader.Load("sample");
 		if (!sampleSystem) {

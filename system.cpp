@@ -33,6 +33,10 @@
  * 	Error message can be fetched using the macro LOAD_DLL_ERR
  *  Then, we can simply call the function like so : 
  * 		int x = test1(5);
+ * 
+ * Predefined accessible system members are :
+	v4d::SystemsLoader* systemsLoader;
+	v4d::CoreInstance* v4dCore;
  */
 
 // Metadata
@@ -56,6 +60,10 @@ V4DSYSTEM void OnDestroy() {
 ////////////////////////////////////////////////////////////////////
 // Example of a custom system function that can be accessed via the main application or other systems
 V4DSYSTEM int test1(int b) {
-	return b * 2;
+	if (v4dCore->GetProjectName() == "Test Project") {
+		return b * 2;
+	} else {
+		return 0;
+	}
 }
 

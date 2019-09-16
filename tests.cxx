@@ -1,13 +1,11 @@
 #include <v4d.h>
 
 namespace v4d::tests {
-	int SYSTEMS_SAMPLE_1(v4d::CoreInstance* v4dCore) {
+	int SYSTEMS_SAMPLE_1(v4d::Core* v4dCore) {
 
 		v4dCore->SetProjectName("Test Project");
 
-		v4d::SystemsLoader systemsLoader(v4dCore);
-
-		auto sampleSystem = systemsLoader.Load("sample");
+		auto sampleSystem = v4dCore->GetSystem("sample");
 		if (!sampleSystem) {
 			LOG_ERROR("ERROR : Could not load sample system library")
 			return 1;

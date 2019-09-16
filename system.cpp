@@ -4,7 +4,6 @@
  * This is a demonstration code for implementation of a System for V4D
  * Systems are compiled into individual libraries (DLL) which will be loaded at runtime into the main application.
  * All systems MUST be compiled in 64bit and MUST have the following MACROS defined in compiler flags : 
- * 		_V4D_SYSTEM
  * 		_RELEASE or _DEBUG
  * 		_WINDOWS or _LINUX
  * 
@@ -13,9 +12,16 @@
  * The keyword V4DSYSTEM is a macro to put in front of every function that should be available to the main application. 
  * 
  * To load a system into the main application, first instantiate a SystemsLoader or use a global one : 
-		v4d::SystemsLoader systemsLoader;
+		v4d::io::SystemsLoader systemsLoader;
+		or
+		auto systemsLoader = v4dCore->GetSystemsLoader();
  * 	Then load the system and check if it has been loaded successfully :
 		auto sampleSystem = systemsLoader.Load("sample");
+		or
+		auto sampleSystem = v4dCore->GetSystemsLoader()->Load("sample");
+		or
+		auto sampleSystem = v4dCore->GetSystem("sample");
+
 		if (!sampleSystem) LOG_ERROR("ERROR : Could not load sample system library")
  * 
  * Systems can include predefined optional functions and custom functions
@@ -35,11 +41,11 @@
  * 		int x = test1(5);
  * 
  * Predefined accessible system members are :
-	v4d::SystemsLoader* systemsLoader;
-	v4d::CoreInstance* v4dCore;
+	v4d::Core* v4dCore;
  */
 
 // Metadata
+#define _V4D_SYSTEM
 #define THIS_SYSTEM_NAME "Sample"
 #define THIS_SYSTEM_REVISION 1
 #define THIS_SYSTEM_DESCRIPTION "Sample V4D System"

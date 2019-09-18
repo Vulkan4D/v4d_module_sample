@@ -13,14 +13,10 @@
  * 
  * To load a system into the main application, first instantiate a SystemsLoader or use a global one : 
 		v4d::io::SystemsLoader systemsLoader;
-		or
-		auto systemsLoader = v4dCore->GetSystemsLoader();
  * 	Then load the system and check if it has been loaded successfully :
 		auto sampleSystem = systemsLoader.Load("sample");
 		or
-		auto sampleSystem = v4dCore->GetSystemsLoader()->Load("sample");
-		or
-		auto sampleSystem = v4dCore->GetSystem("sample");
+		auto sampleSystem = v4dCore->LoadSystem("sample");
 
 		if (!sampleSystem) LOG_ERROR("ERROR : Could not load sample system library")
  * 

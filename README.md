@@ -1,2 +1,2 @@
-# v4d_system_sample
-Vulkan4D system template
+# v4d_module_sample
+Vulkan4D module template

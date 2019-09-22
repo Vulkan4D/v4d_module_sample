@@ -1,1 +1,1 @@
-../../../../tools/build_system.sh
+../../../../tools/build_module.sh

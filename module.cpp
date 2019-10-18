@@ -46,6 +46,10 @@
 #define THIS_MODULE_REVISION 1
 #define THIS_MODULE_DESCRIPTION "Sample V4D Module"
 
+// Pre-compiled common header
+#include <common/pch.hh>
+
+// V4D Core Header
 #include <v4d.h>
 
 ////////////////////////////////////////////////////////////////////

@@ -1,8 +1,8 @@
 set(ModuleName "sample")
 
-file(GLOB_RECURSE ModuleSourceFiles "${CMAKE_CURRENT_SOURCE_DIR}/**.cpp")
+file(GLOB_RECURSE ModuleSourceFiles "${CMAKE_CURRENT_SOURCE_DIR}/${ModuleName}/**.cpp")
 
-add_library(${ModuleName} SHARED 
+add_library(${ModuleName} MODULE 
 	${ModuleSourceFiles}
 )
 

@@ -12,7 +12,7 @@
  * The keyword V4DMODULE is a macro to put in front of every function that should be available to the main application. 
  * 
  * To load a module into the main application, first instantiate a ModulesLoader or use a global one : 
-		v4d::io::ModulesLoader modulesLoader;
+		v4d::modules::ModulesLoader modulesLoader;
  * 	Then load the module and check if it has been loaded successfully :
 		auto sampleModule = modulesLoader.Load("sample");
 		or
@@ -23,7 +23,7 @@
  * Modules can include predefined optional functions and custom functions
  * 
  * To call a predefined function, simply call it using the instance pointer : 
- * 		sampleModule->OnLoad();
+ * 		sampleModule->V4D_ModuleCreate();
  * 
  * To call a custom function from a module, first get the function pointer using the Macro and check if it is valid : 
 		LOAD_DLL_FUNC(sampleModule, int, test1, int)
@@ -38,26 +38,33 @@
  * 
  * Predefined accessible module members are :
 	v4d::Core* v4dCore;
+	V4DSubmodules v4dSubmodules; // map of id=>void*
  */
 
 // Metadata
 #define _V4D_MODULE
+#define THIS_MODULE_VENDOR_ID 123
+#define THIS_MODULE_ID 12345
+#define THIS_MODULE_REV 1
 #define THIS_MODULE_NAME "Sample"
-#define THIS_MODULE_REVISION 1
 #define THIS_MODULE_DESCRIPTION "Sample V4D Module"
 
 // V4D Core Header
 #include <v4d.h>
+using namespace v4d::modules;
+
+// Submodules
+#include "TestSubmodule.hpp"
 
 ////////////////////////////////////////////////////////////////////
 // Predefined optional functions
 
-V4DMODULE void OnLoad() {
-	// LOG("Sample module Loaded")
+V4DMODULE void V4D_ModuleCreate() {
+	v4dSubmodules[SUBMODULE_TYPE_TEST].push_back(new TestSubmodule(44));
 }
 
-V4DMODULE void OnDestroy() {
-	// LOG("Sample module Destroyed")
+V4DMODULE void V4D_ModuleDestroy() {
+	for (auto* module : v4dSubmodules[SUBMODULE_TYPE_TEST]) delete (TestSubmodule*)module;
 }
 
 ////////////////////////////////////////////////////////////////////

@@ -60,11 +60,11 @@ using namespace v4d::modules;
 // Predefined optional functions
 
 V4DMODULE void V4D_ModuleCreate() {
-	v4dSubmodules[SUBMODULE_TYPE_TEST].push_back(new TestSubmodule(44));
+	V4D_LOAD_SUBMODULE(TestSubmodule, 44)
 }
 
 V4DMODULE void V4D_ModuleDestroy() {
-	for (auto* module : v4dSubmodules[SUBMODULE_TYPE_TEST]) delete (TestSubmodule*)module;
+	V4D_UNLOAD_SUBMODULES(TestSubmodule)
 }
 
 ////////////////////////////////////////////////////////////////////

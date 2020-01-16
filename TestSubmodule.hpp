@@ -1,8 +1,7 @@
-struct TestSubmodule {
-	int val;
-	
-	TestSubmodule(int a) {
-		val = a * 2 + 11;
+class TestSubmodule : public v4d::modules::Test {
+public:
+	using v4d::modules::Test::Test;
+	int Run() override {
+		return val * 2 + 11;
 	}
-	
 };

@@ -7,8 +7,8 @@ PlayerView* player = nullptr;
 
 extern "C" {
 	
-	void Init(v4d::graphics::Renderer*) {
-		player = (PlayerView*)V4D_Input0::Modules().Load(THIS_MODULE)->ModuleGetCustomPtr(PLAYER);
+	void Init(v4d::graphics::Scene&) {
+		player = (PlayerView*)V4D_Input::LoadModule(THIS_MODULE)->ModuleGetCustomPtr(PLAYER);
 	}
 	
 	int OrderIndex() {return -1;}
@@ -38,7 +38,7 @@ extern "C" {
 		}
 	#endif
 	
-	void FrameUpdate(v4d::graphics::Scene& scene) {
+	void Update(v4d::graphics::Scene& scene) {
 		std::lock_guard lock(player->mu);
 		scene.camera.MakeViewMatrix(player->worldPosition, player->viewForward, player->viewUp);
 	}

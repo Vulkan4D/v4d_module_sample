@@ -106,39 +106,59 @@ Defining your module class must be done within a header file in which you will d
 
 It's your responsibility to document your ModuleClass and define which function is mandatory or optional to implement.
 
-Defining a module class and its functions can be done quickly using the following MACROS (defined when including v4d.h) :
-* `V4D_MODULE_CLASS_BEGIN` (YourModuleClassName, AllFunctionsToLoad...)
+Defining a module class and its functions can be done quickly using the following MACROS (defined when including v4d.h) within a new class :
+* `V4D_MODULE_CLASS_H` (YourClassName, AllFunctionsToLoad...)
 * `V4D_MODULE_FUNC` (returnType, functionName, args...)
-* `V4D_MODULE_CLASS_END` ()
+* `V4D_MODULE_CLASS_CPP` (YourClassName)
 
 Here is an example for a rendering module class using a vendor named X3D : 
 ```c++
+// X3D_Renderer.h
 #pragma once
 #include <v4d.h>
-V4D_MODULE_CLASS_BEGIN(X3D_Renderer, Init, IsActive, Update, Draw)
-	V4D_MODULE_FUNC(void, Init, v4d::graphics::Renderer*)
-	V4D_MODULE_FUNC(bool, IsActive)
-	V4D_MODULE_FUNC(void, Update, double deltaTime)
-	V4D_MODULE_FUNC(void, Draw, double deltaTime, Image* target)
-V4D_MODULE_CLASS_END()
+namespace x3d { // any namespace you want
+	class X3D_Renderer {// class name must start with your assigned Vendor
+		V4D_MODULE_CLASS_H( X3D_Renderer // must be the exact same as class name
+			// below is a list of all your functions, the order does not matter
+			, Init
+			, IsActive
+			, Update
+			, Draw
+		)
+		// your functions must all be defined here
+		V4D_MODULE_FUNC(void, Init, v4d::graphics::Renderer*)
+		V4D_MODULE_FUNC(bool, IsActive)
+		V4D_MODULE_FUNC(void, Update, double deltaTime)
+		V4D_MODULE_FUNC(void, Draw, double deltaTime, Image* target)
+		// Note: Use typedefs if you need template types that have commas (,)
+	};
+}
+
+// X3D_Renderer.cpp
+#include "X3D_Renderer.h"
+namespace x3d {
+	V4D_MODULE_CLASS_CPP( X3D_Renderer );
+}
 ```
 
 Using the example above, loading and calling functions from SubModules may be done like this :
 ```c++
 // This precisely tries to load the library 'modules/OTHERVENDOR_somemodule/OTHERVENDOR_somemodule.X3D_Renderer.dll'
 // the Load function here may be called many times, it will not try to load it again if already loaded
-X3D_Renderer::Modules().Load("OTHERVENDOR_somemodule");
+X3D_Renderer::LoadModule("OTHERVENDOR_somemodule");
 
 // This effectively calls the function named Init in all loaded submodules that extend X3D_Renderer
-X3D_Renderer::Modules().ForEach([](auto* mod){
+X3D_Renderer::ForEachModule([](auto* mod){
 	if (mod->Init) // it is recommended to check if the function exists in the SubModule before running it
 		mod->Init(&renderer);
 });
 ```
 
-Functions starting with the word `Module` are reserved and may not be defined in your ModuleClass, but may be written in SubModules for special functionality related to the Module Loader. 
+Functions starting or ending with the word `Module` or `Modules` are reserved and may not be defined in your ModuleClass. 
 
-Currently, the following reserved functions are predefined and may be used in SubModules source : 
+Functions starting with the word `Module` may be written in SubModules for special predefined functionality. 
+
+Currently, the following reserved Module functions are predefined and may be used in SubModules source : 
 ```c++
 // called when loading the SubModule for the first time, useful to load dependencies and init variables
 void ModuleLoad() {}

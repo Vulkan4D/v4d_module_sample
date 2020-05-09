@@ -5,10 +5,18 @@
 
 PlayerView* player = nullptr;
 
+V4D_Input* inputModule;
+
 extern "C" {
 	
+	void ModuleLoad() {
+		// Load Dependencies
+		inputModule = V4D_Input::LoadModule(THIS_MODULE);
+		V4D_Renderer::LoadModule("V4D_hybrid");
+	}
+	
 	void Init(v4d::graphics::Scene&) {
-		player = (PlayerView*)V4D_Input::LoadModule(THIS_MODULE)->ModuleGetCustomPtr(PLAYER);
+		player = (PlayerView*)inputModule->ModuleGetCustomPtr(PLAYER);
 	}
 	
 	int OrderIndex() {return -1;}

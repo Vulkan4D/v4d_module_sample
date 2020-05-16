@@ -4,25 +4,25 @@
 #include "common.hpp"
 
 PlayerView* player = nullptr;
-
 V4D_Input* inputModule;
+v4d::graphics::Scene* scene = nullptr;
 
 extern "C" {
 	
 	void ModuleLoad() {
 		// Load Dependencies
 		inputModule = V4D_Input::LoadModule(THIS_MODULE);
-		V4D_Renderer::LoadModule("V4D_hybrid");
 	}
 	
-	void Init(v4d::graphics::Scene&) {
+	void Init(v4d::graphics::Scene* _s) {
+		scene = _s;
 		player = (PlayerView*)inputModule->ModuleGetCustomPtr(PLAYER);
 	}
 	
-	int OrderIndex() {return -1;}
+	int OrderIndex() {return -1000;}
 	
-	#ifdef _ENABLE_IMGUI
-		void RunImGui() {
+	void RendererRunUi() {
+		#ifdef _ENABLE_IMGUI
 			std::lock_guard lock(player->mu);
 			
 			// ImGui::SetNextWindowSizeConstraints({380,90},{380,90});
@@ -43,11 +43,11 @@ extern "C" {
 			ImGui::SliderFloat("Smoothness", &player->flyCamSmoothness, 0.0f, 100.0f);
 			// ImGui::SetNextWindowPos({ImGui::GetWindowPos().x + ImGui::GetWindowSize().x + 5, 0});
 			// ImGui::End();
-		}
-	#endif
+		#endif
+	}
 	
-	void Update(v4d::graphics::Scene& scene) {
+	void RendererFrameUpdate() {
 		std::lock_guard lock(player->mu);
-		scene.camera.MakeViewMatrix(player->worldPosition, player->viewForward, player->viewUp);
+		scene->camera.MakeViewMatrix(player->worldPosition, player->viewForward, player->viewUp);
 	}
 }

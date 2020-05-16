@@ -5,15 +5,17 @@
 
 v4d::graphics::Window* window = nullptr;
 v4d::graphics::Renderer* renderer = nullptr;
+v4d::graphics::Scene* scene = nullptr;
 PlayerView player{};
 
 extern "C" {
 	
 	std::string CallbackName() {return THIS_MODULE;}
 	
-	void Init(v4d::graphics::Window* w, v4d::graphics::Renderer* r) {
+	void Init(v4d::graphics::Window* w, v4d::graphics::Renderer* r, v4d::graphics::Scene* s) {
 		window = w;
 		renderer = r;
+		scene = s;
 	}
 	
 	void* ModuleGetCustomPtr(int what) {

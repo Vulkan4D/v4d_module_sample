@@ -167,6 +167,10 @@ void ModuleUnload() {}
 // typically implemented with a switch case over an ENUM, called between SubModules to share data
 void ModuleSetCustomPtr(int what, void* ptr) {}
 void* ModuleGetCustomPtr(int what) {}
+
+// called for each module when running ModuleClass::ForPrimaryModule(func)
+// lambda func will only be called on the first loaded module that returns true
+bool ModuleIsPrimary() {}
 ```
 
 ## SubModule Source files

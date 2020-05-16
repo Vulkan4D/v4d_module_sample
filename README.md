@@ -1,8 +1,6 @@
-# v4d_module_sample
+## Vulkan4D sample module
 
-## Vulkan4D module sample
-
-This is a sample/template package for implementation of a Module for V4D
+This is a sample/template package for an implementation of a Module for V4D
 
 ## What is a Module
 

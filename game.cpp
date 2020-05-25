@@ -5,7 +5,7 @@
 
 PlayerView* player = nullptr;
 V4D_Input* inputModule;
-v4d::graphics::Scene* scene = nullptr;
+v4d::scene::Scene* scene = nullptr;
 
 extern "C" {
 	
@@ -14,7 +14,7 @@ extern "C" {
 		inputModule = V4D_Input::LoadModule(THIS_MODULE);
 	}
 	
-	void Init(v4d::graphics::Scene* _s) {
+	void Init(v4d::scene::Scene* _s) {
 		scene = _s;
 		player = (PlayerView*)inputModule->ModuleGetCustomPtr(PLAYER);
 	}

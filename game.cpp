@@ -7,21 +7,21 @@ PlayerView* player = nullptr;
 V4D_Input* inputModule;
 v4d::scene::Scene* scene = nullptr;
 
-extern "C" {
+V4D_MODULE_CLASS(V4D_Game) {
 	
-	void ModuleLoad() {
+	V4D_MODULE_FUNC(void, ModuleLoad) {
 		// Load Dependencies
 		inputModule = V4D_Input::LoadModule(THIS_MODULE);
 	}
 	
-	void Init(v4d::scene::Scene* _s) {
+	V4D_MODULE_FUNC(void, Init, v4d::scene::Scene* _s) {
 		scene = _s;
 		player = (PlayerView*)inputModule->ModuleGetCustomPtr(PLAYER);
 	}
 	
-	int OrderIndex() {return -1000;}
+	V4D_MODULE_FUNC(int, OrderIndex) {return -1000;}
 	
-	void RendererRunUi() {
+	V4D_MODULE_FUNC(void, RendererRunUi) {
 		#ifdef _ENABLE_IMGUI
 			std::lock_guard lock(player->mu);
 			
@@ -46,8 +46,9 @@ extern "C" {
 		#endif
 	}
 	
-	void RendererFrameUpdate() {
+	V4D_MODULE_FUNC(void, RendererFrameUpdate) {
 		std::lock_guard lock(player->mu);
 		scene->camera.MakeViewMatrix(player->worldPosition, player->viewForward, player->viewUp);
 	}
-}
+	
+};

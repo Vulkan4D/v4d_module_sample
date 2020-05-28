@@ -8,28 +8,28 @@ v4d::graphics::Renderer* renderer = nullptr;
 v4d::scene::Scene* scene = nullptr;
 PlayerView player{};
 
-extern "C" {
+V4D_MODULE_CLASS(V4D_Input) {
 	
-	std::string CallbackName() {return THIS_MODULE;}
+	V4D_MODULE_FUNC(std::string, CallbackName) {return THIS_MODULE;}
 	
-	void Init(v4d::graphics::Window* w, v4d::graphics::Renderer* r, v4d::scene::Scene* s) {
+	V4D_MODULE_FUNC(void, Init, v4d::graphics::Window* w, v4d::graphics::Renderer* r, v4d::scene::Scene* s) {
 		window = w;
 		renderer = r;
 		scene = s;
 	}
 	
-	void* ModuleGetCustomPtr(int what) {
+	V4D_MODULE_FUNC(void*, ModuleGetCustomPtr, int what) {
 		switch (what) {
 			case PLAYER: return &player;
 		}
 		return nullptr;
 	}
 	
-	void CharCallback(unsigned int c) {
+	V4D_MODULE_FUNC(void, CharCallback, unsigned int c) {
 		
 	}
 	
-	void KeyCallback(int key, int scancode, int action, int mods) {
+	V4D_MODULE_FUNC(void, KeyCallback, int key, int scancode, int action, int mods) {
 		if (action != GLFW_RELEASE
 			#ifdef _ENABLE_IMGUI
 				&& (!ImGui::IsAnyWindowFocused() || key == GLFW_KEY_ESCAPE)
@@ -64,7 +64,7 @@ extern "C" {
 		}
 	}
 	
-	void ScrollCallback(double x, double y) {
+	V4D_MODULE_FUNC(void, ScrollCallback, double x, double y) {
 		if (true
 			#ifdef _ENABLE_IMGUI
 				&& !ImGui::IsAnyWindowFocused()
@@ -75,7 +75,7 @@ extern "C" {
 		}
 	}
 	
-	void MouseButtonCallback(int button, int action, int mods) {
+	V4D_MODULE_FUNC(void, MouseButtonCallback, int button, int action, int mods) {
 		if (action == GLFW_RELEASE
 			#ifdef _ENABLE_IMGUI
 				&& !ImGui::IsAnyWindowFocused()
@@ -94,7 +94,7 @@ extern "C" {
 		}
 	}
 	
-	void Update(double deltaTime) {
+	V4D_MODULE_FUNC(void, Update, double deltaTime) {
 		
 		// double deltaTime = 0.005f; // No need to calculate it... This seems to already be taken into account in GLFW ???????
 		
@@ -183,4 +183,4 @@ extern "C" {
 		
 	}
 	
-}
+};

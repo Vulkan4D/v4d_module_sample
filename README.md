@@ -49,9 +49,9 @@ ModuleVendor( V4D )
 ModuleName( sample )
 ```
 
-To add a SubModule that will be compiled as an individual library (DLL) and loaded at runtime, you must specify ONE source file and the ModuleClass that it implements. 
+To add a SubModule that will be compiled as an individual library (DLL) and loaded at runtime, you must specify the ModuleClass that it implements and at least one source file(s). 
 ```
-SubModule("input.cpp" V4D_Input)
+SubModule(V4D_Input "input.cpp")
 ```
 You may add as many `SubModule()` lines as the number of SubModules that you have. 
 In the same module, you cannot define two SubModules with the same ModuleClass. 
@@ -157,11 +157,13 @@ X3D_Renderer::ForEachModule([](auto* mod){
 
 ## <a name="submoduleSourceFiles"></a> SubModule Source files
 
-Each source file (`.c`, `.cpp`) that you compile defines an individual SubModule that should be compiled in its own individual library (DLL).
+Each SubModule should have at least one source file that implements some of the declared functions for that ModuleClass. 
+
+All source files used for an individual SubModule will be compiled into the same library (DLL).
 
 You may NOT define multiple SubModules in the same library (DLL).
 
-SubModules can implement functions that are well defined in it's ModuleClass. 
+SubModules should implement functions that are well defined in it's ModuleClass. 
 
 From the ModuleClass' header file, each V4D_MODULE_FUNC_DECLARE may be implemented as raw functions, and their return type and argument types must EXACTLY match the ones declared in the class. 
 

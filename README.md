@@ -216,7 +216,6 @@ CONS:
 A typical structure for an integrated SubModule would look like this : 
 
 ```c++
-#define _V4D_MODULE
 #include <v4d.h>
 
 //... your own variables and functions for internal use
@@ -251,10 +250,6 @@ V4D_MODULE_FUNC(void, ModuleUnload) {}
 // typically implemented with a switch case over an ENUM, called between SubModules to share data
 V4D_MODULE_FUNC(void, ModuleSetCustomPtr, int what, void* ptr) {}
 V4D_MODULE_FUNC(void*, ModuleGetCustomPtr, int what) { return nullptr; }
-
-// called for each module when running ModuleClass::ForPrimaryModule(func)
-// lambda func will only be called on the first loaded module that returns true
-V4D_MODULE_FUNC(bool, ModuleIsPrimary) { return true; }
 ```
 
 ## Recap on the terms used (Definitions)

@@ -1,4 +1,5 @@
 #include <v4d.h>
+#include <V4D_Mod.h>
 
 v4d::graphics::Window* window = nullptr;
 

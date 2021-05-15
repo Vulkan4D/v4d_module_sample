@@ -91,6 +91,7 @@ The **VENDOR** part must be a valid official vendor name, and **Moduleclass** ha
 * Must be all lowercase except the first character which is UPPERCASE
 * May contain only letters and numbers (a-z and 0-9)
 * Must start with an UPPERCASE letter (A-Z)
+* V4D and GAME are reserved vendor names used within the engine for base/default Module Classes
 
 As a module developer, you are free to also [define your own ModuleClass](#CreateYourOwnModuleClass) as long as it uses your official VENDOR name. 
 
@@ -154,6 +155,26 @@ X3D_Renderer::ForEachModule([](auto* mod){
 		mod->Init(&renderer);
 });
 ```
+
+
+## Extending a ModuleClass
+
+It is possible to derive one ModuleClass from another. 
+
+To achieve this, instead of `V4D_MODULE_CLASS_HEADER` (YourClassName, AllFunctionsToLoad...)
+
+you may use `V4D_MODULE_CLASS_DERIVED` (YourClassName, BaseClassName, AllFunctionsToLoad...)
+
+within your class which will also be deriving the base class normally.
+
+With a derived ModuleClass, you must NOT define a `V4D_MODULE_CLASS_CPP` in a source file.
+
+For a derived class' functions to be available, you must load these derived modules using the derived class name. 
+
+You must also use the derived class name in the `module.conf` as the ModuleClass.
+
+Then to loop through the derived modules, you may either use the base class or the derived class, depending on whether you need to call the derived methods.
+
 
 ## <a name="submoduleSourceFiles"></a> SubModule Source files
 
